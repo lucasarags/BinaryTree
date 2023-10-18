@@ -1,7 +1,26 @@
 public class Main {
     public static void main(String[] args) {
-        try {
-            BinaryTree tree = new BinaryTree();
+        
+
+        BinaryTree tree = new BinaryTree();
+
+        // Inserir valores na árvore
+        tree.insert(22);
+        tree.insert(31);
+        tree.insert(27);
+        tree.insert(29);
+        tree.insert(13);
+
+        tree.printTreeStructure(tree.root, "");
+        System.out.println("deletando valor 22");
+        tree.delete(27);
+        System.out.println(" ");
+        tree.printTreeStructure(tree.root, "");
+        System.out.println();
+
+
+        }}
+            /*BinaryTree tree = new BinaryTree();
 
             tree.insert(17);
             tree.insert(20);
@@ -105,4 +124,4 @@ public class Main {
 
 
 
-    }
+    }*/

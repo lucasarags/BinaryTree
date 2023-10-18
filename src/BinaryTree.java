@@ -165,55 +165,43 @@ public class BinaryTree {
                     // Subcaso 1.2: Nó é filho direito do pai
                     node.parent.right = null;
                 }
+                node.parent = null;
             } else {
                 // Caso especial: o nó a ser excluído é a raiz da árvore
                 root = null;
             }
         }
-
-        // caso2
+    
+        //caso2
         else if(node.left == null || node.right == null) {
-            // Subcaso 2.1: Nó é filho esquerdo e seu filho é esquerdo
-            if (node.parent != null && node == node.parent.left && node.left != null) {
-                node.parent.left = node.left;
-                node.left.parent = node.parent;
-                return;
-            }
-
-            // Subcaso 2.2: Nó é filho esquerdo e seu filho é direito
-            if (node.parent != null && node == node.parent.left) {
-                node.parent.left = node.right;
-                node.right.parent = node.parent;
-                return;
-            }
-
-            // Subcaso 2.3: Nó é filho direito e seu filho é esquerdo
-            if (node.parent != null && node == node.parent.right && node.left != null) {
-                node.parent.right = node.left;
-                node.left.parent = node.parent;
-                return;
-            }
-
-            // Subcaso 2.4: Nó é filho direito e seu filho é direito
-            if (node.parent != null && node == node.parent.right) {
-                node.parent.right = node.right;
-                node.right.parent = node.parent;
-                return;
+            Node child = (node.left != null) ? node.left : node.right;
+    
+            if (node.parent != null) {
+                // O nó não é a raiz da árvore
+                if (node == node.parent.left) {
+                    // Subcaso 2.1: Nó é filho esquerdo do pai
+                    node.parent.left = child;
+                } else {
+                    // Subcaso 2.2: Nó é filho direito do pai
+                    node.parent.right = child;
+                }
+                child.parent = node.parent; // Atualizar o pai do filho
+                node.parent = null;
+            } else {
+                // Caso especial: o nó a ser excluído é a raiz da árvore
+                root = child; // Atualizar a raiz para o único filho
+                child.parent = null;
             }
         }
 
         //caso3
         else {
-            // Encontrar o sucessor (nó mínimo à direita) (o sucessor in-order )
+            // Encontrar o sucessor (nó mínimo à direita) (o sucessor in-order)
             Node successor = minimum(node.right);
-
-            // Excluir o sucessor (pode ser um caso 1 ou caso 2)
-            if (successor.parent.left == successor) {
-                successor.parent.left = null;
-            } else {
-                successor.parent.right = null;
-            }
-
+    
+            // Chamar recursivamente a função de exclusão para remover o nó sucessor
+            delete(successor.element);
+    
             // Copiar os dados do sucessor para o nó atual a ser deletado
             node.element = successor.element;
         }
